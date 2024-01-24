@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        function downloadImage() {
+            const canvas = document.getElementById("canvas")
+            canvas.width = 1050
+            canvas.height = 200
+            const ctx = canvas.getContext('2d')
+
+            const image = new Image()
+            image.onload = async function() {
+                console.log('image loaded')
+                ctx.drawImage(image, 0, 0, 1050, 200);
+
+                const myFont = new FontFace(
+                    "Pangolin",
+                    "url(https://fonts.gstatic.com/s/pangolin/v6/cY9GfjGcW0FPpi-tWMfN79z4i6BH.woff2)"
+                )
+                await myFont.load()
+                document.fonts.add(myFont)
+
+                ctx.fillStyle = "#EEEEEE";
+                ctx.font = "30px Pangolin";
+                ctx.textBaseline = 'top'
+                ctx.letterSpacing = '10px'
+                ctx.fillText("A chicken", 100, 100);
+                const link = document.createElement('a')
+                link.download = 'filename.png'
+                link.href = canvas.toDataURL()
+                link.click()
+                link.remove()
+            }
+            image.crossOrigin = 'anonymous'
+            const imageUrl = '41e7407f-706a-478a-9836-1dc900f46c72%20(2).jpeg'
+            image.src = imageUrl
+        }
+        downloadImage()
+        console.log('done')
+    </script>
+</body>
+</html>
